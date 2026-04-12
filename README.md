@@ -1,3 +1,14 @@
+#Climatology–Navojoa
+
+Analysis of the climatological database from station 26131 in the municipality of Navojoa, Sonora, Mexico.
+
+(Location: latitude 27.081°, longitude -109.445°, altitude 41 m above sea level.)
+
+The notebook titled "BD_Climatologica_Navojoa.ipynb" mainly consists of data cleaning and exploratory data analysis (EDA).
+
+The notebook titled "Climatologia_Navojoa_Series_Tiempo.ipynb" focuses on time series analysis of the data.
+
+
 # Climatologia-Navojoa
 Análisis de la base de datos climatológica de la  estación  26131 en  el municipio Navojoa del estado de Sonora. 
 
