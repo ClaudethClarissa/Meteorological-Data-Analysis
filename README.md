@@ -6,8 +6,7 @@ Analysis of the climatological database from station 26131 in the municipality o
 
 The notebook titled "BD_Climatologica_Navojoa.ipynb" mainly consists of data cleaning and exploratory data analysis (EDA).
 
-The notebook titled "Climatologia_Navojoa_Series_Tiempo.ipynb" focuses on time series analysis of the data.
-
+The notebook titled "Climatologia_Navojoa_Series_Tiempo.ipynb" analyzed historical climatological data using Python, including temporal aggregation, visualization, and time-series smoothing to identify seasonal and long-term trends.
 
 # Climatologia-Navojoa
 Análisis de la base de datos climatológica de la  estación  26131 en  el municipio Navojoa del estado de Sonora. 
