@@ -4,7 +4,7 @@
 
 A Python-based exploration of historical daily weather observations from **Navojoa (FFCC) station 26131**, Sonora, Mexico. The project studies the seasonal distribution of precipitation and maximum/minimum temperatures, and illustrates how rolling averages reveal patterns at different time scales.
 
-[**Explore the author's EDA (annotated)**](BD_Climatologica_Navojoa.ipynb) · [**Explore the author's time-series analysis (annotated)**](Climatologia_Navojoa_Series_Tiempo.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
+[**Exploratory Data Analysis**](BD_Climatologica_Navojoa.ipynb) · [**Time Series Analysis**](Climatologia_Navojoa_Series_Tiempo.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
 
 ---
 
@@ -37,22 +37,14 @@ Two additional reference files are provided:
 
 The original file includes an evaporation column, but the analysis omits it because the supplied daily observations do not contain usable evaporation values.
 
-## Annotated notebooks — faithful to the original analysis
+## Analyses
 
-These are the **recommended starting points** for readers. They retain the original code's analysis sequence, plots and results, with beginner-friendly English explanations and limited compatibility updates:
+The two Jupyter notebooks contain the code, explanations, and visual results for this project:
 
-- [01 — Original EDA, annotated](BD_Climatologica_Navojoa.ipynb): monthly and annual summaries, temperature histograms, density estimates (KDE), boxplots and precipitation/temperature figures.
-- [02 — Original time-series analysis, annotated](Climatologia_Navojoa_Series_Tiempo.ipynb): daily records, selected historical periods, and 7-, 30- and 365-observation rolling averages.
+- [Exploratory Data Analysis](BD_Climatologica_Navojoa.ipynb): data preparation, monthly and annual summaries, histograms, density estimates (KDE), and boxplots.
+- [Time Series Analysis](Climatologia_Navojoa_Series_Tiempo.ipynb): historical precipitation and temperature records, selected time periods, and moving averages.
 
-The fully preserved historical notebooks and their Python exports are in [`archive/originals/`](archive/originals). The featured notebooks above retain the author's analysis and are placed at the repository root for easy discovery.
-
-## Additional reproducible notebooks
-
-- [01 — Data Cleaning & EDA](archive/compact-notebooks/01_data_cleaning_eda.ipynb): data quality, monthly means, distributions, and temperature visualization.
-- [02 — Time Series Analysis](archive/compact-notebooks/02_time_series_analysis.ipynb): daily calendar reindexing, time-series plots, rolling windows, and year-by-year coverage.
-- [03 — Reproducible Monthly Summary](archive/compact-notebooks/03_reproducible_monthly_summary.ipynb): the shared code behind the README figures.
-
-The compact companion notebooks use shared functions in [`scripts/climate_processing.py`](scripts/climate_processing.py). They require `pandas`, `numpy`, `matplotlib`, `seaborn`, and Jupyter.
+Both notebooks include executed charts and tables for direct viewing on GitHub. Supporting data, scripts, and tests are included for reproducibility.
 
 ## Analysis workflow
 
@@ -75,7 +67,7 @@ The compact companion notebooks use shared functions in [`scripts/climate_proces
 - Zoom into selected historical periods.
 - Compare observed temperatures with centered rolling means using windows of **7, 30, and 365 observations**.
 
-> **Interpretation note:** The featured, annotated time-series notebook preserves the author's original **observation-based** rolling windows. The optional compact companion notebook in `archive/compact-notebooks/` explicitly reindexes to the daily calendar. Neither approach establishes a statistically tested climate trend or produces a forecast.
+> **Interpretation note:** The moving averages use windows of 7, 30, and 365 **observations**, which are not necessarily consecutive calendar days when records are missing. The plots are exploratory, not a statistical test of a climate trend or a forecast.
 
 ## Verified visualizations
 
@@ -99,7 +91,7 @@ To regenerate the numeric summary and the two SVG charts from the original datas
 python scripts/generate_figures.py
 ```
 
-The script generates `reports/monthly_summary.csv` and updates both SVG charts. A [companion notebook](archive/compact-notebooks/03_reproducible_monthly_summary.ipynb) runs the same calculations.
+The script generates `reports/monthly_summary.csv` and updates both SVG charts. The calculations are documented in [`scripts/generate_figures.py`](scripts/generate_figures.py).
 
 ## Descriptive observations
 
@@ -122,8 +114,7 @@ Meteorological-Data-Analysis/
 ├── NORMAL26131.TXT
 ├── README.md
 ├── archive/
-│   ├── originals/                           # Unchanged original notebooks and .py exports
-│   └── compact-notebooks/                   # Optional shorter companion analyses
+│   └── originals/                           # Historical notebook and script versions
 ├── scripts/                                 # Reusable analysis and figure-generation code
 ├── reports/figures/                         # Reproducible summary graphics
 ├── tests/                                   # Regression tests
@@ -154,15 +145,15 @@ Meteorological-Data-Analysis/
    python -m unittest discover -s tests -v
    ```
 
-GitHub Actions executes the two featured author-preserving notebooks and regression tests for proposed changes. Archived compact notebooks are supplemental examples. Original notebooks and scripts are preserved as historical versions and may need older dependencies to execute without modification.
+GitHub Actions executes both analysis notebooks and regression tests for proposed changes. Historical versions are kept in `archive/originals/` for reference.
 
 ## Limitations & planned improvements
 
 - **Incomplete historical coverage:** Missing daily values and differing year/month coverage can bias naive comparisons; validate completeness before making year-to-year or trend claims.
 - **Precipitation aggregation:** Daily precipitation averages and monthly/annual precipitation **totals** are different quantities. The featured notebooks now label the corrected annual and monthly mean charts as averages; interpret archived original figures with care, since their historical labels are unchanged.
-- **Rolling-window definitions:** The featured notebook retains observation-count windows; the archived compact companion uses calendar-day windows. Always state the window definition when comparing plots.
-- **Data-cleaning robustness:** The optional compact processing pipeline discards invalid-date footer rows. The featured notebook retains the author's original cleaning logic with compatibility fixes; a further audit of date completeness and unusual observations would improve reliability.
-- **Reproducibility:** The two featured notebooks, shared scripts and plot generation are CI-tested. Dependency versions are not yet pinned for long-term preservation.
+- **Rolling-window definitions:** Rolling averages are based on observation counts, not guaranteed calendar-day windows when the daily record is incomplete.
+- **Data-cleaning robustness:** Further audits of date completeness, invalid records, and unusual observations would improve reliability.
+- **Reproducibility:** Both notebooks, supporting scripts, and figure generation are CI-tested. Dependency versions are not yet pinned for long-term preservation.
 - **Next analysis:** Compare seasonal patterns across well-observed periods and explicitly quantify completeness before evaluating any long-term trend.
 
 This repository documents an exploratory scientific analysis, **not** a validated climate-change attribution study or operational weather forecast.
