@@ -60,6 +60,30 @@ The original file includes an evaporation column, but the analysis omits it beca
 
 > **Interpretation note:** The notebooks use row-based rolling windows, so these are not necessarily continuous 7-, 30-, or 365-calendar-day periods where observations are missing. Rolling averages are descriptive smoothing tools, not fitted climate trends or forecasts.
 
+## Verified visualizations
+
+These figures are calculated directly from the supplied daily station records, grouping **nonmissing daily observations by calendar month**. Unequal coverage across years and months should be considered when interpreting the averages.
+
+### Precipitation by month
+
+![Observed mean daily precipitation by month](reports/figures/monthly_precipitation.svg)
+
+The highest observed mean daily precipitation occurs in **August (3.70 mm/day)**, followed by **July (2.69 mm/day)** and **September (2.34 mm/day)**. These are *average recorded daily precipitation values*, **not** monthly rainfall totals.
+
+### Temperature by month
+
+![Observed mean daily maximum and minimum temperatures by month](reports/figures/monthly_temperatures.svg)
+
+The highest monthly mean of recorded daily maximum temperatures is in **June (38.97 °C)**. The mean recorded daily minimum temperature peaks in **July (23.89 °C)**.
+
+To independently regenerate the numeric monthly summary using only Python's standard library, run:
+
+```bash
+python scripts/monthly_summary.py
+```
+
+The script writes `reports/monthly_summary.csv`. The charts above were prepared from these same group-by-month calculations.
+
 ## Descriptive observations
 
 The following are observations from the *supplied reference tables*, not newly calculated results from the notebooks:
