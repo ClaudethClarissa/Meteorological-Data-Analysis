@@ -1,27 +1,33 @@
-name: Validate climate analysis
+name: Validate and render climate notebooks
 on:
   pull_request:
   push:
     branches: [main]
-
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install notebook dependencies
+      - name: Install dependencies
         run: python -m pip install pandas numpy matplotlib seaborn statsmodels nbconvert ipykernel
-      - name: Compile scripts and validate reported results
+      - name: Run tests
         run: |
           python -m compileall -q scripts tests
           python -m unittest discover -s tests -v
-      - name: Execute modernized notebooks
-        env:
-          MPLBACKEND: Agg
+      - name: Execute compact notebooks to validate their outputs
         run: |
-          python -m jupyter nbconvert --to notebook --execute notebooks/01_data_cleaning_eda.ipynb --output /tmp/eda_checked.ipynb --ExecutePreprocessor.timeout=180
-          python -m jupyter nbconvert --to notebook --execute notebooks/02_time_series_analysis.ipynb --output /tmp/time_series_checked.ipynb --ExecutePreprocessor.timeout=180
-          python -m jupyter nbconvert --to notebook --execute notebooks/03_reproducible_monthly_summary.ipynb --output /tmp/monthly_checked.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_data_cleaning_eda.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_time_series_analysis.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/03_reproducible_monthly_summary.ipynb --ExecutePreprocessor.timeout=180
+      - name: Validate annotated notebooks from the author's original work
+        run: |
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_original_eda_annotated.ipynb --ExecutePreprocessor.timeout=300
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_original_time_series_annotated.ipynb --ExecutePreprocessor.timeout=300
