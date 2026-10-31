@@ -37,6 +37,14 @@ Two additional reference files are provided:
 
 The original file includes an evaporation column, but the analysis omits it because the supplied daily observations do not contain usable evaporation values.
 
+## Modernized, reproducible notebooks
+
+- [01 — Data Cleaning & EDA](notebooks/01_data_cleaning_eda.ipynb): data quality, monthly means, distributions, and temperature visualization.
+- [02 — Time Series Analysis](notebooks/02_time_series_analysis.ipynb): daily calendar reindexing, time-series plots, rolling windows, and year-by-year coverage.
+- [03 — Reproducible Monthly Summary](notebooks/03_reproducible_monthly_summary.ipynb): the shared code behind the README figures.
+
+The **original notebooks remain at the root** as historical work, and are not overwritten. The modernized notebooks use shared functions in [`scripts/climate_processing.py`](scripts/climate_processing.py). They require `pandas`, `numpy`, `matplotlib`, `seaborn`, and Jupyter.
+
 ## Analysis workflow
 
 ### 1. Data preparation & exploratory analysis
@@ -76,13 +84,13 @@ The highest observed mean daily precipitation occurs in **August (3.70 mm/day)**
 
 The highest monthly mean of recorded daily maximum temperatures is in **June (38.97 °C)**. The mean recorded daily minimum temperature peaks in **July (23.89 °C)**.
 
-To independently regenerate the numeric monthly summary using only Python's standard library, run:
+To regenerate the numeric summary and the two SVG charts from the original dataset using only Python's standard library, run:
 
 ```bash
-python scripts/monthly_summary.py
+python scripts/generate_figures.py
 ```
 
-The script writes `reports/monthly_summary.csv`. The charts above were prepared from these same group-by-month calculations.
+The script writes `reports/monthly_summary.csv` and both SVG charts. A [companion notebook](notebooks/03_reproducible_monthly_summary.ipynb) runs the same calculations.
 
 ## Descriptive observations
 
