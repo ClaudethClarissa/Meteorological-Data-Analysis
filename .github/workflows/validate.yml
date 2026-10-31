@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
 permissions:
-  contents: write
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -22,7 +22,7 @@ jobs:
         run: |
           python -m compileall -q scripts tests
           python -m unittest discover -s tests -v
-      - name: Execute notebooks and save their outputs
+      - name: Execute compact notebooks to validate their outputs
         run: |
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_data_cleaning_eda.ipynb --ExecutePreprocessor.timeout=180
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_time_series_analysis.ipynb --ExecutePreprocessor.timeout=180
@@ -31,13 +31,3 @@ jobs:
         run: |
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_original_eda_annotated.ipynb --ExecutePreprocessor.timeout=300
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_original_time_series_annotated.ipynb --ExecutePreprocessor.timeout=300
-      - name: Save current executed charts and tables in GitHub
-        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add notebooks/01_original_eda_annotated.ipynb notebooks/02_original_time_series_annotated.ipynb notebooks/01_data_cleaning_eda.ipynb notebooks/02_time_series_analysis.ipynb notebooks/03_reproducible_monthly_summary.ipynb
-          if ! git diff --cached --quiet; then
-            git commit -m "Refresh executed notebook plots after validation"
-            git push origin "HEAD:${{ github.head_ref }}"
-          fi
