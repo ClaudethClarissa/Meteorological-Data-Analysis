@@ -4,7 +4,7 @@
 
 A Python-based exploration of historical daily weather observations from **Navojoa (FFCC) station 26131**, Sonora, Mexico. The project studies the seasonal distribution of precipitation and maximum/minimum temperatures, and illustrates how rolling averages reveal patterns at different time scales.
 
-[**Explore the author's EDA (annotated)**](notebooks/01_original_eda_annotated.ipynb) · [**Explore the author's time-series analysis (annotated)**](notebooks/02_original_time_series_annotated.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
+[**Explore the author's EDA (annotated)**](BD_Climatologica_Navojoa.ipynb) · [**Explore the author's time-series analysis (annotated)**](Climatologia_Navojoa_Series_Tiempo.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
 
 ---
 
@@ -41,18 +41,18 @@ The original file includes an evaporation column, but the analysis omits it beca
 
 These are the **recommended starting points** for readers. They retain the original code's analysis sequence, plots and results, with beginner-friendly English explanations and limited compatibility updates:
 
-- [01 — Original EDA, annotated](notebooks/01_original_eda_annotated.ipynb): monthly and annual summaries, temperature histograms, density estimates (KDE), boxplots and precipitation/temperature figures.
-- [02 — Original time-series analysis, annotated](notebooks/02_original_time_series_annotated.ipynb): daily records, selected historical periods, and 7-, 30- and 365-observation rolling averages.
+- [01 — Original EDA, annotated](BD_Climatologica_Navojoa.ipynb): monthly and annual summaries, temperature histograms, density estimates (KDE), boxplots and precipitation/temperature figures.
+- [02 — Original time-series analysis, annotated](Climatologia_Navojoa_Series_Tiempo.ipynb): daily records, selected historical periods, and 7-, 30- and 365-observation rolling averages.
 
-The author's untouched original notebooks remain in the repository root. The shorter notebooks listed below provide an additional compact reproducible overview, **not a replacement for the author's work**.
+The fully preserved historical notebooks and their Python exports are in [`archive/originals/`](archive/originals/). The featured notebooks above retain the author's analysis and are placed at the repository root for easy discovery.
 
 ## Additional reproducible notebooks
 
-- [01 — Data Cleaning & EDA](notebooks/01_data_cleaning_eda.ipynb): data quality, monthly means, distributions, and temperature visualization.
-- [02 — Time Series Analysis](notebooks/02_time_series_analysis.ipynb): daily calendar reindexing, time-series plots, rolling windows, and year-by-year coverage.
-- [03 — Reproducible Monthly Summary](notebooks/03_reproducible_monthly_summary.ipynb): the shared code behind the README figures.
+- [01 — Data Cleaning & EDA](archive/compact-notebooks/01_data_cleaning_eda.ipynb): data quality, monthly means, distributions, and temperature visualization.
+- [02 — Time Series Analysis](archive/compact-notebooks/02_time_series_analysis.ipynb): daily calendar reindexing, time-series plots, rolling windows, and year-by-year coverage.
+- [03 — Reproducible Monthly Summary](archive/compact-notebooks/03_reproducible_monthly_summary.ipynb): the shared code behind the README figures.
 
-The **original notebooks remain at the root** as historical work, and are not overwritten. The modernized notebooks use shared functions in [`scripts/climate_processing.py`](scripts/climate_processing.py). They require `pandas`, `numpy`, `matplotlib`, `seaborn`, and Jupyter.
+The untouched original versions are stored in `archive/originals/`. The compact companion notebooks use shared functions in [`scripts/climate_processing.py`](scripts/climate_processing.py). They require `pandas`, `numpy`, `matplotlib`, `seaborn`, and Jupyter.
 
 ## Analysis workflow
 
@@ -99,7 +99,7 @@ To regenerate the numeric summary and the two SVG charts from the original datas
 python scripts/generate_figures.py
 ```
 
-The script writes `reports/monthly_summary.csv` and both SVG charts. A [companion notebook](notebooks/03_reproducible_monthly_summary.ipynb) runs the same calculations.
+The script writes `reports/monthly_summary.csv` and both SVG charts. A [companion notebook](archive/compact-notebooks/03_reproducible_monthly_summary.ipynb) runs the same calculations.
 
 ## Descriptive observations
 
@@ -115,31 +115,19 @@ These figures provide climatological context. A comparable summary directly deri
 
 ```text
 Meteorological-Data-Analysis/
-├── notebooks/
-│   ├── 01_original_eda_annotated.ipynb
-│   ├── 02_original_time_series_annotated.ipynb
-│   ├── 01_data_cleaning_eda.ipynb
-│   ├── 02_time_series_analysis.ipynb
-│   └── 03_reproducible_monthly_summary.ipynb
-├── scripts/
-│   ├── climate_processing.py
-│   ├── generate_figures.py
-│   └── monthly_summary.py
-├── reports/
-│   └── figures/
-│       ├── monthly_precipitation.svg
-│       └── monthly_temperatures.svg
-├── tests/
-│   └── test_climate_analysis.py
-├── .github/workflows/validate.yml
-├── ClimatologiaNavojoa.txt
+├── BD_Climatologica_Navojoa.ipynb           # Featured EDA (annotated, with figures)
+├── Climatologia_Navojoa_Series_Tiempo.ipynb # Featured time-series analysis
+├── ClimatologiaNavojoa.txt                  # Daily source observations
 ├── ExtremosNavojoa.TXT
 ├── NORMAL26131.TXT
-├── BD_Climatologica_Navojoa.ipynb          # Preserved original
-├── Climatologia_Navojoa_Series_Tiempo.ipynb # Preserved original
-├── BD_Climatologica_Navojoa.py
-├── Climatologia_Navojoa_Series_Tiempo.py
-└── README.md
+├── README.md
+├── archive/
+│   ├── originals/                           # Unchanged original notebooks and .py exports
+│   └── compact-notebooks/                   # Optional shorter companion analyses
+├── scripts/                                 # Reusable analysis and figure-generation code
+├── reports/figures/                         # Reproducible summary graphics
+├── tests/                                   # Regression tests
+└── .github/workflows/validate.yml
 ```
 
 ## Reproduce the analysis
@@ -157,7 +145,7 @@ Meteorological-Data-Analysis/
    ```bash
    python scripts/generate_figures.py
    ```
-4. Start with the **annotated original analyses** under `notebooks/`:
+4. Open the **two featured notebooks at the repository root**:
    ```bash
    jupyter notebook
    ```
@@ -166,7 +154,7 @@ Meteorological-Data-Analysis/
    python -m unittest discover -s tests -v
    ```
 
-GitHub Actions executes the two annotated original analyses, the three compact reproducible notebooks, and regression tests for proposed changes. Original notebooks and scripts are preserved as historical versions and may need older dependencies to execute without modification.
+GitHub Actions executes the two featured author-preserving notebooks and regression tests for proposed changes. Archived compact notebooks are supplemental examples. Original notebooks and scripts are preserved as historical versions and may need older dependencies to execute without modification.
 
 ## Limitations & planned improvements
 
