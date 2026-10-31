@@ -3,6 +3,7 @@ on:
   pull_request:
   push:
     branches: [main]
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -11,7 +12,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Compile scripts
-        run: python -m compileall -q scripts tests
-      - name: Verify summary and SVG generation
-        run: python -m unittest discover -s tests -v
+      - name: Install notebook dependencies
+        run: python -m pip install pandas numpy matplotlib seaborn statsmodels nbconvert ipykernel
+      - name: Compile scripts and validate reported results
+        run: |
+          python -m compileall -q scripts tests
+          python -m unittest discover -s tests -v
+      - name: Execute modernized notebooks
+        env:
+          MPLBACKEND: Agg
+        run: |
+          python -m jupyter nbconvert --to notebook --execute notebooks/01_data_cleaning_eda.ipynb --output /tmp/eda_checked.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute notebooks/02_time_series_analysis.ipynb --output /tmp/time_series_checked.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute notebooks/03_reproducible_monthly_summary.ipynb --output /tmp/monthly_checked.ipynb --ExecutePreprocessor.timeout=180
