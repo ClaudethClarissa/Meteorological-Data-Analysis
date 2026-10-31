@@ -107,8 +107,8 @@ These figures provide climatological context. A comparable summary directly deri
 
 ```text
 Meteorological-Data-Analysis/
-├── BD_Climatologica_Navojoa.ipynb           # Featured EDA (annotated, with figures)
-├── Climatologia_Navojoa_Series_Tiempo.ipynb # Featured time-series analysis
+├── BD_Climatologica_Navojoa.ipynb           # Exploratory data analysis with figures
+├── Climatologia_Navojoa_Series_Tiempo.ipynb # Time-series analysis with figures
 ├── ClimatologiaNavojoa.txt                  # Daily source observations
 ├── ExtremosNavojoa.TXT
 ├── NORMAL26131.TXT
@@ -150,7 +150,7 @@ GitHub Actions executes both analysis notebooks and regression tests for propose
 ## Limitations & planned improvements
 
 - **Incomplete historical coverage:** Missing daily values and differing year/month coverage can bias naive comparisons; validate completeness before making year-to-year or trend claims.
-- **Precipitation aggregation:** Daily precipitation averages and monthly/annual precipitation **totals** are different quantities. The featured notebooks now label the corrected annual and monthly mean charts as averages; interpret archived original figures with care, since their historical labels are unchanged.
+- **Precipitation aggregation:** Daily precipitation averages and monthly/annual precipitation **totals** are different quantities. The charts label monthly and annual mean values as averages, not accumulated rainfall or temperature.
 - **Rolling-window definitions:** Rolling averages are based on observation counts, not guaranteed calendar-day windows when the daily record is incomplete.
 - **Data-cleaning robustness:** Further audits of date completeness, invalid records, and unusual observations would improve reliability.
 - **Reproducibility:** Both notebooks, supporting scripts, and figure generation are CI-tested. Dependency versions are not yet pinned for long-term preservation.
