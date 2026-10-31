@@ -76,13 +76,13 @@ The highest observed mean daily precipitation occurs in **August (3.70 mm/day)**
 
 The highest monthly mean of recorded daily maximum temperatures is in **June (38.97 °C)**. The mean recorded daily minimum temperature peaks in **July (23.89 °C)**.
 
-To independently regenerate the numeric monthly summary using only Python's standard library, run:
+To reproduce **both SVG charts and the numeric monthly summary** from the original data using only Python's standard library, run:
 
 ```bash
-python scripts/monthly_summary.py
+python scripts/generate_figures.py
 ```
 
-The script writes `reports/monthly_summary.csv`. The charts above were prepared from these same group-by-month calculations.
+The script writes `reports/monthly_summary.csv` and regenerates the two SVG charts above using the same calculations. You can also run [the companion notebook](notebooks/03_reproducible_monthly_summary.ipynb). The original EDA and time-series notebooks remain unchanged.
 
 ## Descriptive observations
 
