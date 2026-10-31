@@ -27,6 +27,10 @@ jobs:
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_data_cleaning_eda.ipynb --ExecutePreprocessor.timeout=180
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_time_series_analysis.ipynb --ExecutePreprocessor.timeout=180
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/03_reproducible_monthly_summary.ipynb --ExecutePreprocessor.timeout=180
+      - name: Validate annotated notebooks from the author's original work
+        run: |
+          python -m jupyter nbconvert --to notebook --execute notebooks/01_original_eda_annotated.ipynb --output /tmp/eda-validated.ipynb --ExecutePreprocessor.timeout=300
+          python -m jupyter nbconvert --to notebook --execute notebooks/02_original_time_series_annotated.ipynb --output /tmp/time-series-validated.ipynb --ExecutePreprocessor.timeout=300
       - name: Publish visible notebook results to this PR branch
         if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
         run: |
