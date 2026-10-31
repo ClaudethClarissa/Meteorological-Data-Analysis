@@ -8,7 +8,11 @@ A Python-based exploration of historical daily weather observations from **Navoj
 
 ---
 
-## Project at a glance
+## Overview
+
+This project explores historical precipitation and temperature observations to characterize seasonal patterns and visualize changes in recorded weather over time. The analysis includes data cleaning, exploratory statistics, monthly and annual comparisons, distributions, and rolling averages. Results are descriptive because observation coverage is incomplete.
+
+## Dataset
 
 | | |
 |---|---|
@@ -20,14 +24,14 @@ A Python-based exploration of historical daily weather observations from **Navoj
 | **Variables analyzed** | Daily precipitation (mm), maximum and minimum air temperature (°C) |
 | **Tools** | Python, pandas, NumPy, Matplotlib, Seaborn, statsmodels, Jupyter Notebook |
 
-## Questions explored
+## Research Questions
 
 - How are precipitation and temperature distributed across the calendar year?
 - How do observed temperatures and precipitation vary across years?
 - What becomes visible when daily temperatures are smoothed with moving averages at different time scales?
 - What limitations must be considered when interpreting an incomplete historical record?
 
-## Data source
+## Data Source
 
 The daily observations in [`ClimatologiaNavojoa.txt`](ClimatologiaNavojoa.txt) are labeled **CNA–SMN** (Mexico's National Meteorological Service), with a file issue date of April 6, 2020. The file identifies station 26131 as **Navojoa (FFCC)** and notes the station's status as suspended.
 
@@ -37,7 +41,7 @@ Two additional reference files are provided:
 
 The original file includes an evaporation column, but the analysis omits it because the supplied daily observations do not contain usable evaporation values.
 
-## Analyses
+## Notebooks
 
 The two Jupyter notebooks contain the code, explanations, and visual results for this project:
 
@@ -46,9 +50,9 @@ The two Jupyter notebooks contain the code, explanations, and visual results for
 
 Both notebooks include executed charts and tables for direct viewing on GitHub. Supporting data, scripts, and tests are included for reproducibility.
 
-## Analysis workflow
+## Methodology
 
-### 1. Data preparation & exploratory analysis
+### 1. Data Preparation and Exploratory Analysis
 
 [`BD_Climatologica_Navojoa.ipynb`](BD_Climatologica_Navojoa.ipynb)
 
@@ -58,7 +62,7 @@ Both notebooks include executed charts and tables for direct viewing on GitHub. 
 - Derive calendar month and year.
 - Examine descriptive statistics, distributions, monthly/annual summaries, histograms, density plots, and box plots.
 
-### 2. Time series exploration
+### 2. Time Series Exploration
 
 [`Climatologia_Navojoa_Series_Tiempo.ipynb`](Climatologia_Navojoa_Series_Tiempo.ipynb)
 
@@ -69,7 +73,7 @@ Both notebooks include executed charts and tables for direct viewing on GitHub. 
 
 > **Interpretation note:** The moving averages use windows of 7, 30, and 365 **observations**, which are not necessarily consecutive calendar days when records are missing. The plots are exploratory, not a statistical test of a climate trend or a forecast.
 
-## Verified visualizations
+## Results and Visualizations
 
 These figures are calculated directly from the supplied daily station records, grouping **nonmissing daily observations by calendar month**. Unequal coverage across years and months should be considered when interpreting the averages.
 
@@ -93,7 +97,7 @@ python scripts/generate_figures.py
 
 The script generates `reports/monthly_summary.csv` and updates both SVG charts. The calculations are documented in [`scripts/generate_figures.py`](scripts/generate_figures.py).
 
-## Descriptive observations
+## Context from Climatological Normals
 
 The following are observations from the *supplied reference tables*, not newly calculated results from the notebooks:
 
@@ -103,7 +107,7 @@ The following are observations from the *supplied reference tables*, not newly c
 
 These figures provide climatological context. A comparable summary directly derived from the daily dataset would require documenting coverage and missing-data rules.
 
-## Repository contents
+## Project Structure
 
 ```text
 Meteorological-Data-Analysis/
@@ -121,7 +125,7 @@ Meteorological-Data-Analysis/
 └── .github/workflows/validate.yml
 ```
 
-## Reproduce the analysis
+## How to Reproduce
 
 1. Clone the repository:
    ```bash
@@ -147,7 +151,7 @@ Meteorological-Data-Analysis/
 
 GitHub Actions executes both analysis notebooks and regression tests for proposed changes. Historical versions are kept in `archive/originals/` for reference.
 
-## Limitations & planned improvements
+## Limitations and Next Steps
 
 - **Incomplete historical coverage:** Missing daily values and differing year/month coverage can bias naive comparisons; validate completeness before making year-to-year or trend claims.
 - **Precipitation aggregation:** Daily precipitation averages and monthly/annual precipitation **totals** are different quantities. The charts label monthly and annual mean values as averages, not accumulated rainfall or temperature.
