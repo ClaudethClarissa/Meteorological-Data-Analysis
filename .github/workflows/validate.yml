@@ -23,8 +23,6 @@ jobs:
           python -m compileall -q scripts tests
           python -m unittest discover -s tests -v
       - name: Execute notebooks and save their outputs
-        env:
-          MPLBACKEND: Agg
         run: |
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_data_cleaning_eda.ipynb --ExecutePreprocessor.timeout=180
           python -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_time_series_analysis.ipynb --ExecutePreprocessor.timeout=180
