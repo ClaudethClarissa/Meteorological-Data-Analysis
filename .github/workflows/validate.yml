@@ -1,27 +1,41 @@
-name: Validate climate analysis
+name: Validate and render climate notebooks
 on:
   pull_request:
   push:
     branches: [main]
-
+permissions:
+  contents: write
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          persist-credentials: true
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install notebook dependencies
+      - name: Install dependencies
         run: python -m pip install pandas numpy matplotlib seaborn statsmodels nbconvert ipykernel
-      - name: Compile scripts and validate reported results
+      - name: Run tests
         run: |
           python -m compileall -q scripts tests
           python -m unittest discover -s tests -v
-      - name: Execute modernized notebooks
+      - name: Execute notebooks and save their outputs
         env:
           MPLBACKEND: Agg
         run: |
-          python -m jupyter nbconvert --to notebook --execute notebooks/01_data_cleaning_eda.ipynb --output /tmp/eda_checked.ipynb --ExecutePreprocessor.timeout=180
-          python -m jupyter nbconvert --to notebook --execute notebooks/02_time_series_analysis.ipynb --output /tmp/time_series_checked.ipynb --ExecutePreprocessor.timeout=180
-          python -m jupyter nbconvert --to notebook --execute notebooks/03_reproducible_monthly_summary.ipynb --output /tmp/monthly_checked.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/01_data_cleaning_eda.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/02_time_series_analysis.ipynb --ExecutePreprocessor.timeout=180
+          python -m jupyter nbconvert --to notebook --execute --inplace notebooks/03_reproducible_monthly_summary.ipynb --ExecutePreprocessor.timeout=180
+      - name: Publish visible notebook results to this PR branch
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add notebooks/01_data_cleaning_eda.ipynb notebooks/02_time_series_analysis.ipynb notebooks/03_reproducible_monthly_summary.ipynb
+          if ! git diff --cached --quiet; then
+            git commit -m "Save executed notebook outputs for GitHub preview"
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
