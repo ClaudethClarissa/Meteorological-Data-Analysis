@@ -4,7 +4,7 @@
 
 A Python-based exploration of historical daily weather observations from **Navojoa (FFCC) station 26131**, Sonora, Mexico. The project studies the seasonal distribution of precipitation and maximum/minimum temperatures, and illustrates how rolling averages reveal patterns at different time scales.
 
-[**Explore the EDA notebook**](BD_Climatologica_Navojoa.ipynb) · [**Explore the time series notebook**](Climatologia_Navojoa_Series_Tiempo.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
+[**Explore the EDA notebook**](notebooks/01_data_cleaning_eda.ipynb) · [**Explore the time series notebook**](notebooks/02_time_series_analysis.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
 
 ---
 
@@ -24,7 +24,7 @@ A Python-based exploration of historical daily weather observations from **Navoj
 
 - How are precipitation and temperature distributed across the calendar year?
 - How do observed temperatures and precipitation vary across years?
-- What becomes visible when daily temperature series are smoothed with 7-, 30-, and 365-observation rolling means?
+- What becomes visible when daily temperatures are smoothed with moving averages at different time scales?
 - What limitations must be considered when interpreting an incomplete historical record?
 
 ## Data source
@@ -66,7 +66,7 @@ The **original notebooks remain at the root** as historical work, and are not ov
 - Zoom into selected historical periods.
 - Compare observed temperatures with centered rolling means using windows of **7, 30, and 365 observations**.
 
-> **Interpretation note:** The notebooks use row-based rolling windows, so these are not necessarily continuous 7-, 30-, or 365-calendar-day periods where observations are missing. Rolling averages are descriptive smoothing tools, not fitted climate trends or forecasts.
+> **Interpretation note:** The **original** time-series notebook uses row-based rolling windows; the **modernized** notebook reindexes to the daily calendar and applies calendar-day windows. Neither approach establishes a climate trend or produces a forecast.
 
 ## Verified visualizations
 
@@ -106,43 +106,65 @@ These figures provide climatological context. A comparable summary directly deri
 
 ```text
 Meteorological-Data-Analysis/
-├── BD_Climatologica_Navojoa.ipynb           # Data cleaning and EDA
-├── Climatologia_Navojoa_Series_Tiempo.ipynb  # Time series exploration
-├── BD_Climatologica_Navojoa.py              # Script export of EDA notebook
-├── Climatologia_Navojoa_Series_Tiempo.py     # Script export of time series notebook
-├── ClimatologiaNavojoa.txt                  # Original daily station records
-├── ExtremosNavojoa.TXT                      # Historical extremes reference
-├── NORMAL26131.TXT                          # Climatological normals reference
+├── notebooks/
+│   ├── 01_data_cleaning_eda.ipynb
+│   ├── 02_time_series_analysis.ipynb
+│   └── 03_reproducible_monthly_summary.ipynb
+├── scripts/
+│   ├── climate_processing.py
+│   ├── generate_figures.py
+│   └── monthly_summary.py
+├── reports/
+│   └── figures/
+│       ├── monthly_precipitation.svg
+│       └── monthly_temperatures.svg
+├── tests/
+│   └── test_climate_analysis.py
+├── .github/workflows/validate.yml
+├── ClimatologiaNavojoa.txt
+├── ExtremosNavojoa.TXT
+├── NORMAL26131.TXT
+├── BD_Climatologica_Navojoa.ipynb          # Preserved original
+├── Climatologia_Navojoa_Series_Tiempo.ipynb # Preserved original
+├── BD_Climatologica_Navojoa.py
+├── Climatologia_Navojoa_Series_Tiempo.py
 └── README.md
 ```
 
-## How to explore
+## Reproduce the analysis
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/ClaudethClarissa/Meteorological-Data-Analysis.git
    cd Meteorological-Data-Analysis
    ```
-2. Install the libraries used in the notebooks:
+2. Set up your Python environment (Python 3.11 is used by CI), then install the notebook dependencies:
    ```bash
-   python -m pip install notebook numpy pandas matplotlib seaborn statsmodels
+   python -m pip install notebook numpy pandas matplotlib seaborn statsmodels nbconvert ipykernel
    ```
-3. Open Jupyter:
+3. Regenerate the README figures and monthly summary:
+   ```bash
+   python scripts/generate_figures.py
+   ```
+4. Open the **modernized** notebooks under `notebooks/`:
    ```bash
    jupyter notebook
    ```
-4. Run the EDA notebook first, then the time series notebook. Keep `ClimatologiaNavojoa.txt` in the repository root, because the notebooks use a relative path to load it.
+5. Run automated regression tests:
+   ```bash
+   python -m unittest discover -s tests -v
+   ```
 
-**Compatibility note:** These are original exploratory notebooks; some APIs have changed in newer versions of pandas/NumPy/Seaborn. Reproducibility and dependency pinning are planned improvements, not yet guaranteed.
+GitHub Actions also executes all three modernized notebooks and the regression tests for proposed changes. Original notebooks and scripts are preserved as historical versions and may need older dependencies to execute without modification.
 
 ## Limitations & planned improvements
 
 - **Incomplete historical coverage:** Missing daily values and differing year/month coverage can bias naive comparisons; validate completeness before making year-to-year or trend claims.
 - **Precipitation aggregation:** Daily precipitation averages and monthly/annual precipitation **totals** are different quantities. Some existing plot labels should be revised to match the actual calculation.
-- **Rolling-window definitions:** Reindex to a continuous daily calendar before calling window sizes “days,” or label them as observation-based windows.
-- **Data-cleaning robustness:** Replace row-index-based deletion with content-based filtering, and audit parsing and missingness.
-- **Reproducibility:** Add pinned dependencies, documented cleaning logic, tested notebooks, and generated figures.
-- **Presentation:** Export a small set of verified, high-resolution plots and add data-supported findings here.
+- **Rolling-window definitions:** The modernized notebook uses calendar-day windows; the historical notebook used row-count windows. Explicitly state the approach when comparing plots.
+- **Data-cleaning robustness:** The modernized pipeline discards non-date footer rows by parsing dates; further audit of date completeness and abnormal observations would improve reliability.
+- **Reproducibility:** The modernized notebooks and plot generation are CI-tested. Dependency versions are not yet pinned for long-term preservation.
+- **Next analysis:** Compare seasonal patterns across well-observed periods and explicitly quantify completeness before evaluating any long-term trend.
 
 This repository documents an exploratory scientific analysis, **not** a validated climate-change attribution study or operational weather forecast.
 
