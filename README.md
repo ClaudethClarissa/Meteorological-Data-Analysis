@@ -4,7 +4,7 @@
 
 A Python-based exploration of historical daily weather observations from **Navojoa (FFCC) station 26131**, Sonora, Mexico. The project studies the seasonal distribution of precipitation and maximum/minimum temperatures, and illustrates how rolling averages reveal patterns at different time scales.
 
-[**Explore the EDA notebook**](notebooks/01_data_cleaning_eda.ipynb) · [**Explore the time series notebook**](notebooks/02_time_series_analysis.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
+[**Explore the author's EDA (annotated)**](notebooks/01_original_eda_annotated.ipynb) · [**Explore the author's time-series analysis (annotated)**](notebooks/02_original_time_series_annotated.ipynb) · [**Return to my portfolio**](https://github.com/ClaudethClarissa/data-science-portfolio)
 
 ---
 
@@ -37,7 +37,16 @@ Two additional reference files are provided:
 
 The original file includes an evaporation column, but the analysis omits it because the supplied daily observations do not contain usable evaporation values.
 
-## Modernized, reproducible notebooks
+## Annotated notebooks — faithful to the original analysis
+
+These are the **recommended starting points** for readers. They retain the original code's analysis sequence, plots and results, with beginner-friendly English explanations and limited compatibility updates:
+
+- [01 — Original EDA, annotated](notebooks/01_original_eda_annotated.ipynb): monthly and annual summaries, temperature histograms, density estimates (KDE), boxplots and precipitation/temperature figures.
+- [02 — Original time-series analysis, annotated](notebooks/02_original_time_series_annotated.ipynb): daily records, selected historical periods, and 7-, 30- and 365-observation rolling averages.
+
+The author's untouched original notebooks remain in the repository root. The shorter notebooks listed below provide an additional compact reproducible overview, **not a replacement for the author's work**.
+
+## Additional reproducible notebooks
 
 - [01 — Data Cleaning & EDA](notebooks/01_data_cleaning_eda.ipynb): data quality, monthly means, distributions, and temperature visualization.
 - [02 — Time Series Analysis](notebooks/02_time_series_analysis.ipynb): daily calendar reindexing, time-series plots, rolling windows, and year-by-year coverage.
@@ -107,6 +116,8 @@ These figures provide climatological context. A comparable summary directly deri
 ```text
 Meteorological-Data-Analysis/
 ├── notebooks/
+│   ├── 01_original_eda_annotated.ipynb
+│   ├── 02_original_time_series_annotated.ipynb
 │   ├── 01_data_cleaning_eda.ipynb
 │   ├── 02_time_series_analysis.ipynb
 │   └── 03_reproducible_monthly_summary.ipynb
@@ -146,7 +157,7 @@ Meteorological-Data-Analysis/
    ```bash
    python scripts/generate_figures.py
    ```
-4. Open the **modernized** notebooks under `notebooks/`:
+4. Start with the **annotated original analyses** under `notebooks/`:
    ```bash
    jupyter notebook
    ```
@@ -155,7 +166,7 @@ Meteorological-Data-Analysis/
    python -m unittest discover -s tests -v
    ```
 
-GitHub Actions also executes all three modernized notebooks and the regression tests for proposed changes. Original notebooks and scripts are preserved as historical versions and may need older dependencies to execute without modification.
+GitHub Actions executes the two annotated original analyses, the three compact reproducible notebooks, and regression tests for proposed changes. Original notebooks and scripts are preserved as historical versions and may need older dependencies to execute without modification.
 
 ## Limitations & planned improvements
 
